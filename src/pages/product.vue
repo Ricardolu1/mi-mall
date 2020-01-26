@@ -1,12 +1,12 @@
 <template>
   <div>
-    
+    procut
   </div>
 </template>
 
 <script>
 export default {
-  name:'',
+  name:'product',
   data () {
     return {
 
