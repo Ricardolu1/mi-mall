@@ -6,7 +6,7 @@
 
 <script>
 import axios from 'axios'
-import jsonp from 'jsonp'
+import storage from './storage/index'
 
 export default {
   name: 'app',
@@ -14,7 +14,9 @@ export default {
     
   },
   mounted(){
-    
+    // storage.setItem('a',1)
+   // storage.setItem('user',{b:1})
+   storage.clear("a","user")
   }
 }
 </script>
