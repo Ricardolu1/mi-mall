@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import storage from './storage/index'
 
 export default {
@@ -13,14 +12,19 @@ export default {
   components: {
     
   },
+  data(){
+    return {
+      
+    }
+  },
   mounted(){
-    // storage.setItem('a',1)
-   // storage.setItem('user',{b:1})
-   storage.clear("a","user")
+    
   }
 }
 </script>
 
 <style>
+@import './assets/scss/reset.scss'
 
+  
 </style>
