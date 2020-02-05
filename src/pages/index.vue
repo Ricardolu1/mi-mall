@@ -1,6 +1,5 @@
 <template>
   <div>
-    idenx
   </div>
 </template>
 
