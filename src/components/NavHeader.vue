@@ -10,10 +10,10 @@
         </div>
         <div class="topbar-user">
           <a href="javascript:;" v-if="username">{{username}}</a>
-          <a href="javascript:;" v-if="!username">{{登录}}</a>
+          <a href="javascript:;" v-if="!username" @click="login">登录</a>
           <a href="javascript:;" v-if="username">我的订单</a>
-          <a href="javascript:;" v-if="!username">{{注册}}</a>
-          <a class="my-cart" href="javascript:;">
+          <a href="javascript:;" v-if="!username">注册</a>
+          <a class="my-cart" href="javascript:;" @click="gotoCart">
             <span class="icon-cart"></span>
             购物车
           </a>
@@ -125,7 +125,7 @@ export default {
   name:'nav-header',
   data () {
     return {
-      username:'jack',
+      username:'',
       phoneList:[]
     }
   },
@@ -139,6 +139,12 @@ export default {
     }
   },
   methods: {
+    login(){
+      this.$router.push('/login'); 
+    },
+    gotoCart(){
+      this.$router.push('/cart');
+    },
     getProductList(){
       this.axios.get('/products',{
         params:{
@@ -252,7 +258,8 @@ export default {
               border-top:1px solid #e5e5e5;
               box-shadow:0px 7px 6px 0px rgba(0, 0, 0, 0.11);
               text-align: center;
-              z-index:3;
+              z-index:2;
+              background: #ffffff;
               transition:all .5s;
               .product{
                 float: left;
