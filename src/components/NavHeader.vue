@@ -152,10 +152,7 @@ export default {
           pageSize:6
         }
       }).then((res)=>{
-        if (res.list.length>=6) {
-          this.phoneList = res.list.slice(0,6)
-          console.log(this.phoneList)
-        }
+          this.phoneList = res.list
       })
     }
   },
