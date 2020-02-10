@@ -15,7 +15,7 @@
                     <li v-for="(sub,index2) of item" :key="index2">
                       <a :href="sub ? '/#/product'+ sub.id :'javascript:;'">
                         <img :src="sub.img || '/imgs/item-box-1.png'" alt="">
-                        {{sub.name||小米9 }}
+                        {{sub.name||'小米9' }}
                       </a>
                     </li>
                   </ul>
@@ -147,11 +147,11 @@ export default {
             name:'小米8青春版'
           },{
             id:'32',
-            img:'/imgs/item-box-3.png',
+            img:'/imgs/item-box-3.jpg',
             name:'Redmi K20 Pro'
           },{
             id:'33',
-            img:'/imgs/item-box-4.png',
+            img:'/imgs/item-box-4.jpg',
             name:'移动4G专区'
           },
         ],
@@ -189,6 +189,9 @@ export default {
             padding: 0 30px;
             &:hover{
               background: $colorA;
+              .children{
+                display: block;
+              }
             }
             a{
               display: flex;
@@ -200,6 +203,38 @@ export default {
               }
               font-size: 16px;
               color:#fff;
+            }
+            .children{
+              display: none;
+              box-sizing: border-box;
+              width:962px;
+              height:451px;
+              background: #fff;
+              position: absolute;
+              top:0;
+              left:264px;
+              border:1px solid $colorH;
+              ul{
+                display: flex;
+                justify-content: space-between;
+                height:75px;
+                li{
+                  display: flex;
+                  align-items: center;
+                  height:75px;
+                  width:241px;
+                  padding-left:60px;
+                  a{
+                    color: $colorB;
+                    font-size:14px;
+                    img{
+                      width:42px;
+                      height:35px;
+                      margin-right:15px;
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -216,4 +251,5 @@ export default {
       }
     }
   }
+
 </style>

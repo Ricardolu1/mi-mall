@@ -255,7 +255,7 @@ export default {
               border-top:1px solid #e5e5e5;
               box-shadow:0px 7px 6px 0px rgba(0, 0, 0, 0.11);
               text-align: center;
-              z-index:2;
+              z-index:3;
               background: #ffffff;
               transition:all .5s;
               .product{
@@ -270,7 +270,7 @@ export default {
                   position:absolute;
                   top:28px;
                   right:0;
-                  border-left:2px solid $colorF;
+                  border-left:1px solid $colorF;
                   height:100px;
                 }
                 &:last-child:before{
