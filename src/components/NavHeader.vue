@@ -43,10 +43,6 @@
             </div>
           </div>
           <div class="item-menu">
-            <span>RedMi红米</span>
-            <div class="children"></div>
-          </div>
-          <div class="item-menu">
             <span>电视</span>
             <div class="children">
               <ul>
@@ -106,6 +102,10 @@
                 </li>
               </ul>
             </div>
+          </div>
+          <div class="item-menu">
+            <span>RedMi红米</span>
+            <div class="children"></div>
           </div>
         </div>
         <div class="header-search">
