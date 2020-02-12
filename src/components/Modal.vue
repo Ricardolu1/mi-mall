@@ -4,7 +4,7 @@
       <div class="mask"></div>
       <div class="modal-dialog">
         <div class="modal-header">
-          <span>标题</span>
+          <span>{{title}}</span>
           <img class="icon-close" @click="$emit('cancel')" src="/imgs/icon-close.png" alt="">
         </div>
         <div class="modal-body">
@@ -14,16 +14,16 @@
         <a class="btn" href="javascript:;" 
           @click="$emit('submit')"
           v-if="btnType==='1'"
-        >确定</a>
+        >{{sureText}}</a>
         <a class="btn" href="javascript:;" 
           @click="$emit('cancel')"
           v-if="btnType==='2'"
-        >取消</a>
+        >{{cancelText}}</a>
           <div class="btn-group" v-if="btnType==='3'">
             <a class="btn" href="javascript:;"  @click="$emit('submit')"
-          v-if="btnType==='1'">确定</a>
+          v-if="btnType==='1'">{{sureText}}</a>
             <a class="btn" href="javascript:;" @click="$emit('cancel')"
-          v-if="btnType==='2'">取消</a>
+          v-if="btnType==='2'">{{cancelText}}</a>
           </div>
         </div>
       </div>

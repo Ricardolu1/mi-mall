@@ -3,6 +3,8 @@ import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import env from './env'
+import VueLazyload from 'vue-lazyload'
+import VueCookie from 'vue-cookie'
 
 import App from './App.vue'
 
@@ -25,10 +27,16 @@ axios.interceptors.response.use(function (response) {
     window.location.href = '/#/login'
   }else{
     alert(res.msg)
+    return Promise.reject(res)
   }
 })
 
 Vue.use(VueAxios,axios)
+
+Vue.use(VueLazyload,{
+  loading:'/imgs/loading-svg/loading-bars.svg'
+})
+Vue.use(VueCookie)
 Vue.config.productionTip = false //生产环境的提示，开发环境下默认关掉
 
 new Vue({

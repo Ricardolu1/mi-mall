@@ -1,7 +1,10 @@
 .modal{
   @include position(fixed);
   z-index:9;
-  transition: all .5s;
+  &.slide-enter-active,
+  &.slide-leave-active{
+    transition: all .5s;
+  }
   &.slide-enter,
   &.slide-leave-to{
     top:-100%;

@@ -17,8 +17,21 @@ export default {
       
     }
   },
+  methods:{
+    getUser(){
+      this.axios.get('/user').then(()=>{
+        //to-do保存到vuex
+      })
+    },
+    getCartCount(){
+      this.axios.get('/cart/products/sum').then(()=>{
+        //to-do保存到vuex
+      })
+    }
+  },
   mounted(){
-    
+    this.getUser()
+    this.getCartCount()
   }
 }
 </script>
