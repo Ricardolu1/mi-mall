@@ -41,9 +41,8 @@ export default {
   name: 'login',
   data(){
     return {
-      username:'',
-      password:'',
-      userId:''
+      username:'adminycy',
+      password:'adminycy'
     }
   },
   methods:{
@@ -54,16 +53,16 @@ export default {
         password
       }).then((res)=>{
         this.$cookie.set('userId',res.id,{expires:'1M'})
-        //to-do保存用户名
+        this.$store.dispatch('saveUserName',res.username)
         this.$router.push('/index')
       })
     },
     register(){
-      this.axios.post('/user/login',{
-        username:'admin',
-        password:'admin',
-        email:'admin@163.com'
-      }).then(()=>{
+      this.axios.post('/user/register',{
+        username:'adminycy',
+        password:'adminycy',
+        email:'adminycy@163.com'
+      }).then((res)=>{
         alert('注册成功')
       })
     }

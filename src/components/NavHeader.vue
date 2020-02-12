@@ -3,18 +3,18 @@
     <div class="nav-topbar">
       <div class="container">
         <div class="topbar-menu">
-          <a href="javascript:;">小米商城</a>
+          <a href="/#/index">小米商城</a>
           <a href="javascript:;">MUI</a>
           <a href="javascript:;">云服务</a>
           <a href="javascript:;">协议规则</a>
         </div>
         <div class="topbar-user">
-          <a href="javascript:;" v-if="username">{{username}}</a>
+          <a href="javascript:;" v-if="username" v-cloak>{{username}}</a>
           <a href="javascript:;" v-if="!username" @click="login">登录</a>
-          <a href="javascript:;" v-if="username">我的订单</a>
+          <a href="javascript:;" v-if="username" v-cloak>我的订单</a>
           <a class="my-cart" href="javascript:;" @click="gotoCart">
             <span class="icon-cart"></span>
-            购物车
+            购物车({{cartCount}})
           </a>
         </div>
       </div>
@@ -124,12 +124,19 @@ export default {
   name:'nav-header',
   data () {
     return {
-      username:'',
       phoneList:[]
     }
   },
   mounted(){
     this.getProductList()
+  },
+  computed:{
+    username(){
+      return this.$store.state.username
+    },
+    cartCount(){
+      return this.$store.state.cartCount
+    },
   },
   filters:{
     currency(val){
@@ -162,7 +169,6 @@ export default {
 @import '../assets/scss/base.scss';
 @import '../assets/scss/mixin.scss';
 @import '../assets/scss/config.scss';
-
   .header{
     .nav-topbar{
       line-height:39px;
