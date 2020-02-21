@@ -247,7 +247,6 @@ export default {
       })  
     },
     addCart(id){
-      
       this.axios.post('/carts',{
         productId:id,
         selected:true

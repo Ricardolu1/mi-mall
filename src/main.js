@@ -6,6 +6,8 @@ import env from './env'
 import VueLazyload from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
 import store from './store/index'
+import { Message } from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 import App from './App.vue'
 
@@ -31,17 +33,18 @@ axios.interceptors.response.use(function (response) {
     }
     return Promise.reject(res)
   }else{
-    alert(res.msg)
+    Message.warning(res.msg)
     return Promise.reject(res)
   }
 })
 
 Vue.use(VueAxios,axios)
-
 Vue.use(VueLazyload,{
   loading:'/imgs/loading-svg/loading-bars.svg'
 })
 Vue.use(VueCookie)
+
+Vue.prototype.$message = Message
 Vue.config.productionTip = false //生产环境的提示，开发环境下默认关掉
 
 new Vue({
