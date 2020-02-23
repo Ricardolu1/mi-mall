@@ -25,7 +25,7 @@
           <div class="item-address">
             <h2 class="addr-title">收货地址</h2>
             <div class="addr-list clearfix">
-              <div class="addr-info" v-for="(item,index) of list" :key="index">
+              <div class="addr-info" @click="checkIndex=index" :class="{checked:index===checkIndex}" v-for="(item,index) of list" :key="index">
                 <h2>{{item.receiverName}}</h2>
                 <div class="phone">{{item.receiverMobile}}</div>
                 <div class="street">{{item.receiverProvince + ' ' + item.receiverCity + ' ' + item.receiverDistrict + ' ' + item.receiverAddress}}
@@ -34,12 +34,12 @@
                   <a href="javascript:;" class="fl" @click="delAddress(item)">
                     <svg class="icon icon-del"><use xlink:href="#icon-del"></use></svg>
                   </a>
-                  <a href="javascript:;" class="fr">
+                  <a href="javascript:;" class="fr" @click="editAddress(item)">
                     <svg class="icon icon-edit"><use xlink:href="#icon-edit"></use></svg>
                   </a>
                 </div>
               </div>
-              <div class="addr-add" @click="openAddressModal">
+              <div class="addr-add" @click="addAddress">
                 <div class="icon-add"></div>
                 <div>添加新地址</div>
               </div>
@@ -93,7 +93,7 @@
           </div>
           <div class="btn-group">
             <a href="/#/cart" class="btn btn-default btn-large">返回购物车</a>
-            <a href="javascript:;" class="btn btn-large">去结算</a>
+            <a href="javascript:;" class="btn btn-large" @click="orderSubmit">去结算</a>
           </div>
         </div>
       </div>
@@ -155,7 +155,8 @@ export default{
       showEditModal:false,//是否显示新增或者编辑弹框
       count:0, //商品结算数量
       checkedItem:{},//选中的商品的对象
-      userAction:'' //用户行为 0表示新增 1表示编辑 2表示删除
+      userAction:'', //用户行为 0表示新增 1表示编辑 2表示删除
+      checkIndex:0 //当前收获地址选中的索引
     }
   },
   components:{
@@ -168,14 +169,19 @@ export default{
         this.list = res.list
       })
     },
-    openAddressModal(){
+    addAddress(){
       this.userAction = 0
       this.checkedItem = {}
       this.showEditModal = true
     },
-    delAddress(item){
+    editAddress(item){
+      this.userAction = 1
       this.checkedItem = item
+      this.showEditModal = true
+    },
+    delAddress(item){
       this.userAction = 2
+      this.checkedItem = item
       this.showDelModal = true
     },
     //地址新增、编辑、删除功能
@@ -241,6 +247,27 @@ export default{
         this.cartList = list.filter(item=>item.productSelected)
         this.cartList.forEach((item)=>{
           this.count += item.quantity
+        })
+      })
+    },
+    //订单提交
+    orderSubmit(){
+      let item = this.list[this.checkIndex]
+      if (!item) {
+        this.$message.error('请选择一个收获地址')
+        return
+      }
+      this.axios.post('/orders',{
+        shippingId:item.id
+      }).then((res)=>{
+        this.$router.push({
+          path:'/order/pay',
+          query:{
+            orderNo:res.orderNo,
+          }
+        })
+        this.axios.get('/carts/products/sum').then((res=0)=>{
+          this.$store.dispatch('saveCartCount',res)
         })
       })
     }
