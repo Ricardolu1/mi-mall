@@ -11,19 +11,17 @@
           <slot name="body"></slot>
         </div>
         <div class="modal-footer">
-        <a class="btn" href="javascript:;" 
-          @click="$emit('submit')"
-          v-if="btnType==='1'"
-        >{{sureText}}</a>
-        <a class="btn" href="javascript:;" 
-          @click="$emit('cancel')"
-          v-if="btnType==='2'"
-        >{{cancelText}}</a>
+          <a class="btn" href="javascript:;" 
+            @click="$emit('submit')"
+            v-if="btnType==='1'"
+          >{{sureText}}</a>
+          <a class="btn" href="javascript:;" 
+            @click="$emit('cancel')"
+            v-if="btnType==='2'"
+          >{{cancelText}}</a>
           <div class="btn-group" v-if="btnType==='3'">
-            <a class="btn" href="javascript:;"  @click="$emit('submit')"
-          v-if="btnType==='1'">{{sureText}}</a>
-            <a class="btn" href="javascript:;" @click="$emit('cancel')"
-          v-if="btnType==='2'">{{cancelText}}</a>
+            <a class="btn" href="javascript:;"  @click="$emit('submit')">{{sureText}}</a>
+            <a class="btn btn-default" href="javascript:;" @click="$emit('cancel')">{{cancelText}}</a>
           </div>
         </div>
       </div>

@@ -50,12 +50,26 @@
         </div>
       </div>
     </div>
-    <!-- <scan-pay-code></scan-pay-code> -->
+    <scan-pay-code v-if="showPay" :img="payImg" @close="closePayModal" />>
+    <modal
+      :showModal="showPayModal"
+      title="支付确认"
+      btnType="3"
+      sureText="查看订单"
+      cancelText="未支付"
+      @cancel="showPayModal=false"
+      @submit="goOrderList"
+    >
+      <template #body>
+        <p>您确认是否完成支付？</p>
+      </template>
+    </modal>
   </div>
 </template>
 <script>
-import OrderHeader from './../components/OrderHeader'
-// import ScanPayCode from './../components/ScanPayCode'
+import QRCode from 'qrcode'
+import ScanPayCode from './../components/ScanPayCode'
+import Modal from '../components/Modal'
 export default{
   name:'order-pay',
   data(){
@@ -65,11 +79,16 @@ export default{
       orderDetail:[], //订单详情，包含商品列表
       showDetail:false, //是否展示订单详情
       allPlusPrice:0,
-      payType:''  //支付类型
+      payType:'',  //支付类型
+      showPay:false,//是否显示微信支付弹框
+      payImg:'', //微信支付的二维码地址
+      showPayModal:false ,//是否显示二次支付确认弹框
+      T:'' //定时器id
     }
   },
   components:{
-    OrderHeader,
+    ScanPayCode,//微信支付弹框组件
+    Modal
   },
   methods:{
     getOrderDetail(){
@@ -94,9 +113,36 @@ export default{
         amount:'0.01',//单位元
         payType:2 //1支付宝，2微信
       }).then((res)=>{
-        
-      })
+        QRCode.toDataURL(res.content)
+          .then(url => { //会转换成base64
+            this.showPay = true
+            this.payImg = url
+            this.loopOrderState()
+          })
+          .catch(() => {
+            this.$message.error('微信二维码生成失败，请稍后重试')
+          })
+        })
       }
+    },
+    closePayModal(){
+      this.showPay = false
+      this.showPayModal = true
+      this.clearInterval(this.T)
+    },
+    //轮询当前订单支付状态
+    loopOrderState(){
+      this.T = setInterval(() => {
+        this.axios.get(`/orders/${this.orderId}`).then((res)=>{
+          if (res.status===20) {
+            clearInterval(this.T)
+            this.goOrderList()
+          }
+        })
+      }, 1000);
+    },
+    goOrderList(){
+      this.$router.push('/order/list')
     }
   },
   mounted(){
