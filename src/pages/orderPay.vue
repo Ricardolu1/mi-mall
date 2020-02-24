@@ -8,21 +8,21 @@
             <div class="order-info">
               <h2>订单提交成功！去付款咯～</h2>
               <p>请在<span>30分</span>内完成支付, 超时后将取消订单</p>
-              <p>收货信息：Admin 183****0972 北京 北京市 朝阳区 望京街道 望京(地铁站)</p>
+              <p>收货信息：{{adressInfo}}</p>
             </div>
             <div class="order-total">
-              <p>应付总额：<span>2599</span>元</p>
-              <p>订单详情<em class="icon-down up"  @click="showDetail=!showDetail"></em></p>
+              <p>应付总额：<span>{{allPlusPrice}}</span>元</p>
+              <p>订单详情<em class="icon-down" :class="{up:!showDetail}" @click="showDetail=!showDetail"></em></p>
             </div>
           </div>
           <div class="item-detail" v-if="showDetail">
             <div class="item">
               <div class="detail-title">订单号：</div>
-              <div class="detail-info theme-color">5190702816411009</div>
+              <div class="detail-info theme-color">{{orderId}}</div>
             </div>
             <div class="item">
               <div class="detail-title">收货信息：</div>
-              <div class="detail-info">Admin 183****0972 北京 北京市 朝阳区 望京街道 望京(地铁站)</div>
+              <div class="detail-info">{{adressInfo}}</div>
             </div>
             <div class="item good">
               <div class="detail-title">商品名称：</div>
@@ -31,8 +31,6 @@
                   <li v-for="(item,index) in orderDetail" :key="index">
                     <img v-lazy="item.productImage"/>{{item.productName}}
                   </li>
-                  <li><img src="https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/2c9307e9690dfbca39d8de770a7a8664.png" alt="">小米8 青春 全网通版 6GB内存 深空灰 64GB</li>
-                  <li><img src="https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/2c9307e9690dfbca39d8de770a7a8664.png" alt="">小米8青春版 标准高透贴膜 高透</li>
                 </ul>
               </div>
             </div>
@@ -46,13 +44,13 @@
           <h3>选择以下支付方式付款</h3>
           <div class="pay-way">
             <p>支付平台</p>
-            <div class="pay pay-ali checked"></div>
-            <div class="pay pay-wechat"></div>
+            <div class="pay pay-ali" :class="{checked:payType===1}" @click="paySubmit(1)"></div>
+            <div class="pay pay-wechat" :class="{checked:payType===2}" @click="paySubmit(2)"></div>
           </div>
         </div>
       </div>
     </div>
-    <scan-pay-code v-if="showPay"></scan-pay-code>
+    <!-- <scan-pay-code></scan-pay-code> -->
   </div>
 </template>
 <script>
@@ -62,7 +60,12 @@ export default{
   name:'order-pay',
   data(){
     return {
-      orderNo:this.$route.query.orderNo,
+      orderId:this.$route.query.orderNo,
+      adressInfo:'', //收货人地址
+      orderDetail:[], //订单详情，包含商品列表
+      showDetail:false, //是否展示订单详情
+      allPlusPrice:0,
+      payType:''  //支付类型
     }
   },
   components:{
@@ -70,11 +73,34 @@ export default{
   },
   methods:{
     getOrderDetail(){
-
+      this.axios.get(`/orders/${this.orderId}`).then((res)=>{
+        let item = res.shippingVo
+        this.adressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress} ${item.receiverZip}`
+        this.orderDetail =  res.orderItemVoList
+        this.orderDetail.forEach((item)=>{
+          this.allPlusPrice += item.totalPrice
+        })
+      })
+    },
+    paySubmit(type){
+      if (type===1) {
+        this.payType=1
+        window.open('/#/order/alipay?orderId=' + this.orderId , '_blank')
+      }else{
+        this.payType=2
+        this.axios.post('pay',{
+        orderId:this.orderId,
+        orderName:'vue高仿小米商城', //扫码支付时订单名称
+        amount:'0.01',//单位元
+        payType:2 //1支付宝，2微信
+      }).then((res)=>{
+        
+      })
+      }
     }
   },
   mounted(){
-    
+    this.getOrderDetail()
   }
 }
 </script>
