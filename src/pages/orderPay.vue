@@ -1,5 +1,10 @@
 <template>
   <div class="order-pay">
+    <order-header title="订单支付">
+      <template v-slot:tip>
+        <span>请谨防钓鱼链接或诈骗电话，了解更多</span>
+      </template>
+    </order-header>
     <div class="wrapper">
       <div class="container">
         <div class="order-wrap">
@@ -11,7 +16,7 @@
               <p>收货信息：{{adressInfo}}</p>
             </div>
             <div class="order-total">
-              <p>应付总额：<span>{{allPlusPrice}}</span>元</p>
+              <p>应付总额：<span>{{payment}}</span>元</p>
               <p>订单详情<em class="icon-down" :class="{up:!showDetail}" @click="showDetail=!showDetail"></em></p>
             </div>
           </div>
@@ -37,6 +42,9 @@
             <div class="item">
               <div class="detail-title">发票信息：</div>
               <div class="detail-info">电子发票 个人</div>
+              <div>
+                <a class="btn" href="javascript:;" @click="goOrderList">查看订单详情</a>
+              </div>
             </div>
           </div>
         </div>
@@ -67,6 +75,7 @@
   </div>
 </template>
 <script>
+import OrderHeader from '../components/OrderHeader'
 import QRCode from 'qrcode'
 import ScanPayCode from './../components/ScanPayCode'
 import Modal from '../components/Modal'
@@ -77,8 +86,8 @@ export default{
       orderId:this.$route.query.orderNo,
       adressInfo:'', //收货人地址
       orderDetail:[], //订单详情，包含商品列表
-      showDetail:false, //是否展示订单详情
-      allPlusPrice:0,
+      showDetail:true, //是否展示订单详情
+      payment:0, //订单总金额
       payType:'',  //支付类型
       showPay:false,//是否显示微信支付弹框
       payImg:'', //微信支付的二维码地址
@@ -88,7 +97,8 @@ export default{
   },
   components:{
     ScanPayCode,//微信支付弹框组件
-    Modal
+    Modal,
+    OrderHeader
   },
   methods:{
     getOrderDetail(){
@@ -96,9 +106,7 @@ export default{
         let item = res.shippingVo
         this.adressInfo = `${item.receiverName} ${item.receiverMobile} ${item.receiverProvince} ${item.receiverCity} ${item.receiverDistrict} ${item.receiverAddress} ${item.receiverZip}`
         this.orderDetail =  res.orderItemVoList
-        this.orderDetail.forEach((item)=>{
-          this.allPlusPrice += item.totalPrice
-        })
+        this.payment = res.payment
       })
     },
     paySubmit(type){
@@ -128,7 +136,7 @@ export default{
     closePayModal(){
       this.showPay = false
       this.showPayModal = true
-      this.clearInterval(this.T)
+      clearInterval(this.T)
     },
     //轮询当前订单支付状态
     loopOrderState(){
@@ -230,6 +238,9 @@ export default{
                 width: 30px;
                 vertical-align: middle;
               }
+            }
+            a{
+              margin-top:25px;
             }
           }
         }
