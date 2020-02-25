@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from './pages/login'
+// import Login from './pages/login'
 import Home from './pages/home'
 import Index from './pages/index'
-import Product from './pages/product'
-import Detail from './pages/detail'
+// import Product from './pages/product'
+// import Detail from './pages/detail'
 import Cart from './pages/cart'
-import Order from './pages/order'
+// import Order from './pages/order'
 import orderConfirm from './pages/orderConfirm'
 import orderList from './pages/orderList'
 import orderPay from './pages/orderPay'
@@ -28,50 +28,50 @@ export default new Router({
         },{
           path:'product/:id',
           name:'product',
-          component:Product
+          component:resolve =>require(['./pages/product.vue'],resolve)
         },{
           path:'detail/:id',
           name:'detail',
-          component:Detail
+          component:resolve =>require(['./pages/detail.vue'],resolve)
         }
       ]
     },
     {
       path:'/cart',
       name:'cart',
-      component:Cart
+      component:resolve =>require(['./pages/cart.vue'],resolve)
     },
     {
       path:'/order',
       name:'order',
-      component:Order,
+      component:()=>import('./pages/order.vue'),
       children:[
         {
           path:'list',
           name:'order-list',
-          component:orderList
+          component:()=>import('./pages/orderList.vue'),
         },
         {
           path:'confirm',
           name:'order-confirm',
-          component:orderConfirm
+          component:resolve =>require(['./pages/orderConfirm.vue'],resolve)
         },
         {
           path:'pay',
           name:'order-pay',
-          component:orderPay
+          component:resolve =>require(['./pages/orderPay.vue'],resolve)
         },
         {
           path:'alipay',
           name:'alipay',
-          component:Alipay
+          component:resolve =>require(['./pages/alipay.vue'],resolve)
         }
       ]
     },
     {
       path:'/login',
       name:'login',
-      component:Login
+      component:()=>import('./pages/login.vue')
     }
   ],
   scrollBehavior (to, from, savedPosition) {

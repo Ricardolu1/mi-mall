@@ -27,7 +27,7 @@ export default {
     margin:50px 0;
     img{
       width:180px;
-      height:auto;
+      height:auto ;
     }
   }
 

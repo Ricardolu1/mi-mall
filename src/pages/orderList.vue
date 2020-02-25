@@ -82,16 +82,17 @@ export default {
       pageSize:2,
       pageNum:1,
       total:0,
+      busy:false,
     }
   },
   methods: {
     handleChange(pageNum){
       this.pageNum = pageNum
-      this.isLoading = true
       window.scrollTo(0,0)
       this.getOrderList()
     },
     getOrderList(){
+      this.isLoading = true
       this.axios.get('/orders',{
         params:{
           pageSize:2,
@@ -194,9 +195,6 @@ export default {
         }
         /deep/.el-pagination.is-background .el-pager li:not(.disabled):hover {
           color:#FF6600
-        }
-        .load-more,.scroll-more{
-          text-align:center;
         }
       }
     }
