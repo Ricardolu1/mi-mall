@@ -52,8 +52,8 @@
           <h3>选择以下支付方式付款</h3>
           <div class="pay-way">
             <p>支付平台</p>
-            <div class="pay pay-ali" :class="{checked:payType===1}" @click="paySubmit(1)"></div>
-            <div class="pay pay-wechat" :class="{checked:payType===2}" @click="paySubmit(2)"></div>
+            <div class="pay pay-ali" @click="paySubmit(1)"></div>
+            <div class="pay pay-wechat" @click="paySubmit(2)"></div>
           </div>
         </div>
       </div>
@@ -268,7 +268,7 @@ export default{
             &:last-child{
               margin-left:20px;
             }
-            &.checked{
+            &:hover{
               border:1px solid #FF6700;
             }
           }

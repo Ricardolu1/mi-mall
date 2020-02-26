@@ -1,16 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Login from './pages/login'
 import Home from './pages/home'
 import Index from './pages/index'
-// import Product from './pages/product'
-// import Detail from './pages/detail'
-import Cart from './pages/cart'
-// import Order from './pages/order'
-import orderConfirm from './pages/orderConfirm'
-import orderList from './pages/orderList'
-import orderPay from './pages/orderPay'
-import Alipay from './pages/alipay'
 Vue.use(Router)
 
 export default new Router({
@@ -28,18 +19,18 @@ export default new Router({
         },{
           path:'product/:id',
           name:'product',
-          component:resolve =>require(['./pages/product.vue'],resolve)
+          component:()=>import('./pages/product.vue'),
         },{
           path:'detail/:id',
           name:'detail',
-          component:resolve =>require(['./pages/detail.vue'],resolve)
+          component:()=>import('./pages/detail.vue'),
         }
       ]
     },
     {
       path:'/cart',
       name:'cart',
-      component:resolve =>require(['./pages/cart.vue'],resolve)
+      component:()=>import('./pages/cart.vue'),
     },
     {
       path:'/order',
@@ -54,17 +45,17 @@ export default new Router({
         {
           path:'confirm',
           name:'order-confirm',
-          component:resolve =>require(['./pages/orderConfirm.vue'],resolve)
+          component:()=>import('./pages/orderConfirm.vue'),
         },
         {
           path:'pay',
           name:'order-pay',
-          component:resolve =>require(['./pages/orderPay.vue'],resolve)
+          component:()=>import('./pages/orderPay.vue'),
         },
         {
           path:'alipay',
           name:'alipay',
-          component:resolve =>require(['./pages/alipay.vue'],resolve)
+          component:()=>import('./pages/alipay.vue'),
         }
       ]
     },
