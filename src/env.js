@@ -8,7 +8,7 @@ switch (process.env.NODE_ENV) {
     baseURL = 'http://test-mall-pre.springboot.cn/api'
     console.log('22')
     break;
-  case 'prod':
+  case 'production':
     baseURL = 'http://mall-pre.springboot.cn/api'
     console.log('33')
     break;
