@@ -2,14 +2,11 @@ import Vue from 'vue'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import env from './env'
 import VueLazyload from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
 import store from './store/index'
-
 import { Message } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-
 import App from './App.vue'
 
 //根据前端的跨域方式做调整  /a/b : /api/a/b =>/a/b
@@ -21,7 +18,7 @@ import App from './App.vue'
 // }
 axios.defaults.timeout = 8000
 //根据环境变量获取不同的环境地址
-axios.defaults.baseURL = env.baseURL
+axios.defaults.baseURL = '/api'
 // 接口错误拦截
 axios.interceptors.response.use(function (response) {
   let res = response.data
